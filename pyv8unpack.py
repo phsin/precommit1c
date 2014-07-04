@@ -98,11 +98,11 @@ def decompile():
             dataprocessor_files.append(filename)
             logging.info("file %s" % filename)
             continue
-       if filename[-3:] == 'ert' :
+        if filename[-3:] == "ert":
             dataprocessor_files_v7.append(filename)
             logging.info("file %s" % filename)
             continue            
-       if filename[-2:] == 'md' :
+        if filename[-2:] == "MD":
             dataprocessor_files_MD.append(filename)
             logging.info("file %s" % filename)
             continue            
@@ -192,8 +192,8 @@ def decompile():
             if not os.path.exists(dirsource):
                 os.makedirs(dirsource)
             #для каждого файла определим новую папку.
-            newsourcepath = os.path.join(dirsource, newdirname, 'MD')
-            if not os.path.exists(newsourcepath):1
+            newsourcepath = os.path.join(dirsource, newdirname, "MD")
+            if not os.path.exists(newsourcepath):
                 logging.info("create new dir %s" % newsourcepath)
                 os.makedirs(newsourcepath)
 
