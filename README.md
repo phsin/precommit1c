@@ -15,9 +15,6 @@
     * git
     * в случаии запуска из под wine, необходим и msscriptcontrol.
  
-настройки git для кириллицы в названиях файлов
->git config --local core.quotepath false
-
 2. По умолчанию считается, что пути к python.exe и git.exe находятса в переменной path, иначе необходимо указать явный путь в файлах pre-commit(для python) и pyv8unpack.py(для git)
 
 3. В файле pyv8unpack.py в переменной 1сbin необходимо указать путь к платформе не
@@ -34,6 +31,10 @@
         ibService 
         pyv8unpack.py
 ```
+5. настройки git для кириллицы в названиях файлов
+	
+>git config --local core.quotepath false
+
 
 ##Запуск 
 

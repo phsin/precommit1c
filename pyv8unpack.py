@@ -102,7 +102,7 @@ def decompile():
             dataprocessor_files_v7.append(filename)
             logging.info("file %s" % filename)
             continue            
-        if filename[-2:] == "MD":
+        if filename[-2:] in ['MD','md']:
             dataprocessor_files_MD.append(filename)
             logging.info("file %s" % filename)
             continue            
@@ -154,7 +154,7 @@ def decompile():
 
     if len(dataprocessor_files_v7) > 0:
         for filename in dataprocessor_files_v7:
-            print("file %s" % filename)
+            print("ert file %s" % filename)
             #TODO: добавить копирование этих же файлов в каталог src/имяфайла/...
             #get file name.
             fullpathfile = os.path.abspath(filename)
@@ -180,7 +180,7 @@ def decompile():
 
     if len(dataprocessor_files_MD) > 0:
         for filename in dataprocessor_files_MD:
-            print("file %s" % filename)
+            print("MD file %s" % filename)
             #TODO: добавить копирование этих же файлов в каталог src/имяфайла/...
             #get file name.
             fullpathfile = os.path.abspath(filename)
@@ -197,7 +197,7 @@ def decompile():
                 logging.info("create new dir %s" % newsourcepath)
                 os.makedirs(newsourcepath)
 
-            t1 = format("gcomp -d -v -F %s -D %s -v --no-ini --no-version --no-empty-mxl" % (filename, newsourcepath))
+            t1 = format("gcomp -d -v -F %s -D %s" % (filename, newsourcepath))
             result = subprocess.check_call(['cmd.exe', '/C', t1])
             result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             if not result == 0:
