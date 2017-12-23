@@ -79,7 +79,6 @@ def decompile():
     """
     Main functions doing be decompile
     """
-
     #list of files to decompile and results decompile
     dataprocessor_files = []
 
@@ -100,7 +99,7 @@ def decompile():
             dataprocessor_files_v7.append(filename)
             logging.info("file %s" % filename)
             continue            
-        if filename[-2:] in ['MD','md']:
+        if filename[-3:] in ['.MD','.md']:
             dataprocessor_files_MD.append(filename)
             logging.info("file %s" % filename)
             continue            
@@ -115,7 +114,7 @@ def decompile():
 
     if len(dataprocessor_files_v7) > 0:
         for filename in dataprocessor_files_v7:
-            #print("ert file %s" % filename)
+            print("ert file %s" % filename)
             #TODO: добавить копирование этих же файлов в каталог src/имяфайла/...
             #get file name.
             fullpathfile = os.path.abspath(filename)
@@ -130,12 +129,22 @@ def decompile():
                 os.makedirs(dirsource)
             #для каждого файла определим новую папку.
             newsourcepath = os.path.join(dirsource, newdirname)
+            newpath2 = os.path.join(newsourcepath, basename)
             if not os.path.exists(newsourcepath):
                 logging.info("create new dir %s" % newsourcepath)
                 os.makedirs(newsourcepath)
+            #print("curabsdirpath %s" % curabsdirpath)
+            #print("newpath2 %s" % newpath2)
+            #print("basename %s" % basename)
 
             t1 = format("gcomp -q -d -F %s -D %s -v --no-ini --no-version --no-empty-mxl" % (filename, newsourcepath))
-            result = subprocess.check_call(['cmd.exe', '/C', t1])
+            result = subprocess.check_call(['cmd.exe', '/C', t1])            
+            #изменим кодировку cp1251 на utf-8 
+            #утилита iconv.exe должна запускаться в cmd = добавлена в PATH			
+            #файлов 1s, mdp, frm, txt
+            t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newpath2 )
+            print("t3 = %s" % t3)
+            result = subprocess.check_call(['cmd.exe', '/C', t3])
             result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             if not result == 0:
                 logging.error(result)
@@ -150,7 +159,7 @@ def decompile():
             basename = os.path.splitext(os.path.basename(filename))[0]
             fullbasename = os.path.basename(filename)
             newdirname = os.path.dirname(filename)
-
+            
             #Скопируем сначало просто структуру каталогов.
             if not os.path.exists(dirsource):
                 os.makedirs(dirsource)
@@ -159,9 +168,21 @@ def decompile():
             if not os.path.exists(newsourcepath):
                 logging.info("create new dir %s" % newsourcepath)
                 os.makedirs(newsourcepath)
-
+            newpath2 = os.path.join(newsourcepath, basename)
+            print("fullbasename %s" % fullbasename)
+            print("newdirname %s" % newdirname)
+            print("newsourcepath %s" % newsourcepath)
+            
             t1 = format("gcomp -d -v -F %s -D %s" % (filename, newsourcepath))
             result = subprocess.check_call(['cmd.exe', '/C', t1])
+
+            #изменим кодировку cp1251 на utf-8 
+            #утилита iconv.exe должна запускаться в cmd = добавлена в PATH			
+            #файлов 1s, mdp, frm, txt
+            t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newsourcepath )
+            print("t3 = %s" % t3)
+            result = subprocess.check_call(['cmd.exe', '/C', t3])
+
             result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             if not result == 0:
                 logging.error(result)
