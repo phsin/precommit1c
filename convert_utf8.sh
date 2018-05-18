@@ -8,23 +8,39 @@ find . -type f -name '*.1s' -o -name '*.1s' | while read i
     do
     echo converting $i
     iconv -f WINDOWS-1251 -t UTF-8 "$i" > tmp
+<<<<<<< HEAD
     mv -f tmp "$i.utf8"
+=======
+    mv -f tmp "$i"
+>>>>>>> remotes/origin/master
     done
 find . -type f -name '*.mdp' -o -name '*.mdp' | while read i
     do
     echo converting $i
     iconv -f WINDOWS-1251 -t UTF-8 "$i" > tmp
+<<<<<<< HEAD
     mv -f tmp "$i.utf8"
+=======
+    mv -f tmp "$i"
+>>>>>>> remotes/origin/master
     done
 find . -type f -name '*.frm' -o -name '*.frm' | while read i
     do
     echo converting $i
     iconv -f WINDOWS-1251 -t UTF-8 "$i" > tmp
+<<<<<<< HEAD
     mv -f tmp "$i.utf8"
+=======
+    mv -f tmp "$i"
+>>>>>>> remotes/origin/master
     done
 find . -type f -name '*.txt' -o -name '*.txt' | while read i
     do
     echo converting $i
     iconv -f WINDOWS-1251 -t UTF-8 "$i" > tmp
+<<<<<<< HEAD
     mv -f tmp "$i.utf8"
+=======
+    mv -f tmp "$i"
+>>>>>>> remotes/origin/master
     done    

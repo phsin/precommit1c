@@ -97,12 +97,21 @@ def decompile():
         logging.info("file to check %s" % filename)
         if filename[-3:] == "ert":
             dataprocessor_files_v7.append(filename)
+<<<<<<< HEAD
             logging.info("file %s" % filename)
             continue            
         if filename[-3:] in ['.MD','.md']:
             dataprocessor_files_MD.append(filename)
             logging.info("file %s" % filename)
             continue            
+=======
+            logging.info("file %s" % filename)
+            continue            
+        if filename[-3:] in ['.MD','.md']:
+            dataprocessor_files_MD.append(filename)
+            logging.info("file %s" % filename)
+            continue            
+>>>>>>> remotes/origin/master
 
     dirsource = os.path.abspath(os.path.join(os.path.curdir, "src"))
     curabsdirpath = os.path.abspath(os.path.curdir)    
@@ -145,10 +154,14 @@ def decompile():
             t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newpath2 )
             print("t3 = %s" % t3)
             result = subprocess.check_call(['cmd.exe', '/C', t3])
+<<<<<<< HEAD
             #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
+=======
+            result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
+>>>>>>> remotes/origin/master
             if not result == 0:
                 logging.error(result)
                 exit(result)
@@ -186,10 +199,14 @@ def decompile():
             print("t3 = %s" % t3)
             result = subprocess.check_call(['cmd.exe', '/C', t3])
 
+<<<<<<< HEAD
             #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
+=======
+            result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
+>>>>>>> remotes/origin/master
             if not result == 0:
                 logging.error(result)
                 exit(result)
