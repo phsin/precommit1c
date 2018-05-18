@@ -144,8 +144,13 @@ def decompile():
             #файлов 1s, mdp, frm, txt
             t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newpath2 )
             print("t3 = %s" % t3)
+            logging.info("CONVERT: %s" % t3)
             result = subprocess.check_call(['cmd.exe', '/C', t3])
-            result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
+            #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.utf', newsourcepath])
             if not result == 0:
                 logging.error(result)
                 exit(result)
@@ -181,9 +186,14 @@ def decompile():
             #файлов 1s, mdp, frm, txt
             t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newsourcepath )
             print("t3 = %s" % t3)
+            logging.info("CONVERT: %s" % t3)
             result = subprocess.check_call(['cmd.exe', '/C', t3])
 
-            result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
+            #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
+            result = subprocess.check_call(['git', 'add', '*.utf', newsourcepath])
             if not result == 0:
                 logging.error(result)
                 exit(result)
