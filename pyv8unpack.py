@@ -148,8 +148,8 @@ def decompile():
             result = subprocess.check_call(['cmd.exe', '/C', t3])
             #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
-            result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
-            result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
+            #result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
+            #result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.utf', newsourcepath])
             if not result == 0:
                 logging.error(result)
@@ -191,8 +191,8 @@ def decompile():
 
             #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
-            result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
-            result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
+            #result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
+            #result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.utf', newsourcepath])
             if not result == 0:
                 logging.error(result)
