@@ -9,6 +9,8 @@ import logging
 import tempfile
 import re
 import platform
+import ctypes
+import locale
 
 #logging.basicConfig(level=logging.ERROR)  # DEBUG => print ALL msgs
 logging.basicConfig(level=logging.DEBUG)  # DEBUG => print ALL msgs
@@ -58,15 +60,16 @@ def get_list_of_comitted_files():
     """
     files = []
     output = []
+ 
     try:
-        output = subprocess.check_output(['git','diff-index', '--name-status', '--cached','HEAD']
-            ).decode("utf-8")
+        #logging.info( subprocess.check_output(['git','diff-index', '--name-status', '--cached','HEAD'], encoding=cmd_codepage) )
+        output = subprocess.check_output(['git','diff-index', '--name-status', '--cached','HEAD']).decode('utf8')
     except subprocess.CalledProcessError:
         print("Error diff files get: trace %s" % subprocess.CalledProcessError)
         return files
 
     for result in output.split("\n"):
-        logging.info(result)
+        #logging.info( result )         
         if result != '':
             match = modified.match(result)
             if match:
@@ -74,6 +77,16 @@ def get_list_of_comitted_files():
 
     return files
 
+def warning(x):
+    #logging.info( " LOCALE %s" % locale.getpreferredencoding() )
+    #logging.info( " LOCALE2 %s" % sys.stdout.encoding )
+    try: logging.info(x.encode('utf8').decode('cp1251'))
+    except: logging.info( x )
+
+def info(x):
+    logging.info(x)
+    #try: logging.info(x.encode('utf8').decode('cp1251'))
+    #except: logging.info( x )
 
 def decompile():
     """
@@ -93,16 +106,21 @@ def decompile():
 
     #Find datapocessor files
     for filename in get_list_of_comitted_files():
-        #Check the file extensions
-        logging.info("file to check %s" % filename)
+        #Check the file extensions        
+        if filename.find(" ") > -1 :            
+            logging.info(" ------------- %s" % filename )
+            continue
         if filename[-3:] == "ert":
             dataprocessor_files_v7.append(filename)
-            logging.info("file %s" % filename)
+            info( "file %s" % filename )
+            #try: logging.info("file %s" % filename.encode('utf8').decode('cp1251'))
+            #except: logging.info("file %s" % filename)
             continue            
         if filename[-3:] in ['.MD','.md']:
             dataprocessor_files_MD.append(filename)
-            logging.info("file %s" % filename)
+            info("file %s" % filename)
             continue            
+        logging.info(" !!!!!!!! %s" % filename)
 
     dirsource = os.path.abspath(os.path.join(os.path.curdir, "src"))
     curabsdirpath = os.path.abspath(os.path.curdir)    
@@ -114,7 +132,7 @@ def decompile():
 
     if len(dataprocessor_files_v7) > 0:
         for filename in dataprocessor_files_v7:
-            print("ert file %s" % filename)
+            info(" ert file %s" % filename )
             #TODO: добавить копирование этих же файлов в каталог src/имяфайла/...
             #get file name.
             fullpathfile = os.path.abspath(filename)
@@ -122,7 +140,7 @@ def decompile():
             fullbasename = os.path.basename(filename)
             newdirname = os.path.dirname(filename)
 
-            print("ert file %s" % fullpathfile )
+            #warning(" ert file %s" % fullpathfile )
 
             #Скопируем сначало просто структуру каталогов.
             if not os.path.exists(dirsource):
@@ -140,24 +158,25 @@ def decompile():
             t1 = format("gcomp -q -d -F %s -D %s -v --no-ini --no-version --no-empty-mxl" % (filename, newsourcepath))
             result = subprocess.check_call(['cmd.exe', '/C', t1])            
             #изменим кодировку cp1251 на utf-8 
-            #утилита iconv.exe должна запускаться в cmd = добавлена в PATH			
+            #утилита iconv.exe должна запускаться в cmd = добавлена в PATH          
             #файлов 1s, mdp, frm, txt
-            t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newpath2 )
-            print("t3 = %s" % t3)
-            logging.info("CONVERT: %s" % t3)
+            t3 = 'bash .git/hooks/convert_utf8.sh {0}/'.format( newpath2 )
+            info(" t3 = %s" % t3)
+            info(" CONVERT: %s" % t3)
             result = subprocess.check_call(['cmd.exe', '/C', t3])
             #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.1s', newsourcepath])
             #result = subprocess.check_call(['git', 'add', '*.frm', newsourcepath])
             #result = subprocess.check_call(['git', 'add', '*.mxl', newsourcepath])
             result = subprocess.check_call(['git', 'add', '*.utf', newsourcepath])
+            #raise Exception(" !!!!!!!!!!!!!!")
             if not result == 0:
                 logging.error(result)
                 exit(result)
 
     if len(dataprocessor_files_MD) > 0:
         for filename in dataprocessor_files_MD:
-            print("MD file %s" % filename)
+            info("MD file %s" % filename)
             #TODO: добавить копирование этих же файлов в каталог src/имяфайла/...
             #get file name.
             fullpathfile = os.path.abspath(filename)
@@ -174,19 +193,19 @@ def decompile():
                 logging.info("create new dir %s" % newsourcepath)
                 os.makedirs(newsourcepath)
             newpath2 = os.path.join(newsourcepath, basename)
-            print("fullbasename %s" % fullbasename)
-            print("newdirname %s" % newdirname)
-            print("newsourcepath %s" % newsourcepath)
+            info("fullbasename %s" % fullbasename)
+            info("newdirname %s" % newdirname)
+            info("newsourcepath %s" % newsourcepath)
             
             t1 = format("gcomp -d -v -F %s -D %s" % (filename, newsourcepath))
             result = subprocess.check_call(['cmd.exe', '/C', t1])
 
             #изменим кодировку cp1251 на utf-8 
-            #утилита iconv.exe должна запускаться в cmd = добавлена в PATH			
+            #утилита iconv.exe должна запускаться в cmd = добавлена в PATH          
             #файлов 1s, mdp, frm, txt
             t3 = 'bash .git/hooks/convert_utf8.sh {0}'.format( newsourcepath )
-            print("t3 = %s" % t3)
-            logging.info("CONVERT: %s" % t3)
+            info("t3 = %s" % t3)
+            info("CONVERT: %s" % t3)
             result = subprocess.check_call(['cmd.exe', '/C', t3])
 
             #result = subprocess.check_call(['git', 'add', '--all', newsourcepath])
@@ -200,3 +219,5 @@ def decompile():
 
 if __name__ == '__main__':
     decompile()
+
+
