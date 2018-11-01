@@ -41,7 +41,8 @@ function cleanEOL(doc) {
         Message("Удаление пробелов и табуляции в конце строк: " + corrections);
 }
 
-
+//замена номер строки модуля в конфигураторе при сохранинии - по весить на Ctrl+S
+//НомерСтрокиМодуля(#) -> НомерСтрокиМодуля(123)
 function replaceLineNum(doc) {
     var re = /НомерСтрокиМодуля\((#|\d)*\)/;
     var lines = doc.Text.split("\r\n");
