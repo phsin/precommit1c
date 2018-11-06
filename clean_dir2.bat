@@ -1,29 +1,37 @@
 @echo off
+rem chcp 1251
                 :: file - имя или маска жертвы для удаления
 rem set "file=ОбъектыМетаданных.txt"
                 :: from - имя папки, с которой начинаем искать жертву
                 :: завершающий обратный \ для диска - обязателен,
                 :: папка кодируется БЕЗ завершающего \
  
-set "from=%1"
+set "from=."
 rem set "from=c:\"
  
-call :delall-file "file=ОбъектыМетаданных.txt" "%from%"
-call :delall-file "file=Структура.mdp" "%from%"
-call :delall-file "file=Форма.frm" "%from%"
-call :delall-file "file=ПорядокОбъектов.ord" "%from%"
-call :delall-file "file=Таблица.mxl" "%from%"
-call :delall-file "file=Описание.txt" "%from%"
+set "file=ОбъектыМетаданных.txt"
+call :delall-file "%file%" "%from%"
+set "file=Структура.mdp"
+call :delall-file "%file%" "%from%"
+set "file=Форма.frm"
+call :delall-file "%file%" "%from%"
+set "file=ПорядокОбъектов.ord"
+call :delall-file "%file%" "%from%"
+set "file=Таблица.mxl"
+call :delall-file "%file%" "%from%"
+set "file=Описание.txt"
+call :delall-file "%file%" "%from%"
 
 rem pause
 exit /b
  
 :delall-file
-echo удалить РЕКУРСИВНО файлы с именем "%file%",
-echo начиная с папки "%from%" ?
+rem echo удалить РЕКУРСИВНО файлы с именем "%file%",
+rem echo начиная с папки "%from%" ?
+echo delete file "%file%" from "%from%"
 echo.
 rem pause
-echo....наберись терпения - рекурсивно ищу файлы начиная с папки %from%
+rem echo....наберись терпения - рекурсивно ищу файлы начиная с папки %from%
  
                 :: удалить echo в следующей строке, чтобы РЕАЛЬНО избавиться от файлов
  
