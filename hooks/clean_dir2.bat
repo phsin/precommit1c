@@ -13,8 +13,8 @@ set "file=ОбъектыМетаданных.txt"
 call :delall-file "%file%" "%from%"
 set "file=Структура.mdp"
 call :delall-file "%file%" "%from%"
-set "file=Форма.frm"
-call :delall-file "%file%" "%from%"
+rem set "file=Форма.frm"
+rem call :delall-file "%file%" "%from%"
 set "file=ПорядокОбъектов.ord"
 call :delall-file "%file%" "%from%"
 set "file=Таблица.mxl"
@@ -24,6 +24,7 @@ call :delall-file "%file%" "%from%"
 
 rem pause
 exit /b
+rem break
  
 :delall-file
 rem echo удалить РЕКУРСИВНО файлы с именем "%file%",
